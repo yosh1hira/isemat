@@ -1,0 +1,69 @@
+---
+title: シェルスクリプト Zsh で
+description: ""
+date: April 25 2022
+---
+
+# Zsh を勉強したい
+
+覚えたら便利と聞いてるけれど、何に使ってるのかわからないシェルスクリプト。
+ちょっとした手間を自動化したいと思っても大概、言語化できずに後回してました。
+その前に事前設定をこのように記述した。
+
+```
+#!/bin/zsh
+
+export STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/config.toml
+
+eval "$(/usr/local/bin/starship init zsh)"
+eval "$(/usr/local/bin/zoxide init zsh)"
+eval "$(/usr/libexec/path_helper)"
+
+#### Added by Zinit's installer
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+source "$ZINIT_HOME/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+#### End of Zinit installer's chunk
+
+SCRIPT_DIR=$XDG_CONFIG_HOME/zsh
+source $SCRIPT_DIR/plugins.zsh
+source $SCRIPT_DIR/config.zsh
+source $SCRIPT_DIR/aliases.zsh
+source $SCRIPT_DIR/functions.zsh
+### End of Zinit's installer chunk
+```
+
+## プラグインマネージャー
+
+プラグインマネージャーに[Zinit](https://github.com/zdharma-continuum/zinit)を使用しています。
+といってもプラグインは
+
+- zsh-users/zsh-syntax-highlight
+- zsh-users/zsh-autosuggestions
+- hlissner/zsh-autopair
+  の 3 つだけなんですけど。
+
+## プロンプト
+
+テーマは[powerlevel10k](https://github.com/romkatv/powerlevel10k)と[starship](https://github.com/starship/starship)で迷いましたが、rust で作られてるってことで starship を選択しました。
+toml を編集すれば自由度も高いらしいのですが、情報過多を嫌いシンプル表示にしました。
+
+```
+add_newline = true
+
+[rust]
+disabled = true
+
+[python]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[julia]
+disabled = true
+
+[package]
+disabled = true
+```

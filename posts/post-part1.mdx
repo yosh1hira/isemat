@@ -1,0 +1,125 @@
+---
+title: 軽量動画プレイヤー MPV 生活 part1
+description: ""
+date: April 23 2022
+---
+
+# MPV 1 日目
+
+```
+brew install mpv
+```
+
+しました。
+初期の音量が 100%ですっごいうるさい…。
+設定わからない…。
+ので、[mpv.io のドキュメント](https://mpv.io/manual/stable/)を観ようとするも、動画一つみるだけのために
+日本語に直しても意味がわからない英語が並んでいます。
+
+きっつい。
+
+なんとかわかったのは
+
+```
+$HOME/.config/mpv/
+```
+
+に、input.conf というファイルを作ってそこに設定を記述していくということだけ。
+挫けずにコツコツ自分好みの設定にしていこうと思います。
+
+```
+# mpv keybindings
+
+# Mouse clicks
+MOUSE_BTN0      ignore
+MOUSE_BTN0_DBL  ignore
+MOUSE_BTN1      ignore
+MOUSE_BTN2      ignore
+MOUSE_BTN3      ignore
+MOUSE_BTN4      ignore
+MOUSE_BTN5      ignore
+MOUSE_BTN6      ignore
+
+# Mouse wheels
+AXIS_UP     add volume 1
+AXIS_DOWN   add volume -1
+AXIS_LEFT   ignore
+AXIS_RIGHT  ignore
+
+# Player Commands
+PLAY       cycle pause
+PAUSE      cycle pause
+PLAYPAUSE  cycle pause
+FORWARD    seek 5
+REWIND     seek -5
+NEXT       playlist-next
+PREV       playlist-prev
+
+# Standard Commands
+SPACE  cycle pause ; show-text "${?pause==no:Play}${?pause==yes:Pause}"
+p      cycle pause ; show-text "${?pause==no:Play}${?pause==yes:Pause}"
+m      cycle mute
+l      set loop "${?loop==no:inf}${!loop==no:no}"
+s      screenshot video
+Ctrl+c quit
+Meta+q quit
+Meta+w stop
+
+# Seek
+LEFT        seek -5 exact
+RIGHT       seek 5 exact
+UP          seek -60
+DOWN        seek 60
+Shift+RIGHT seek 1 exact
+Shift+LEFT  seek -1 exact
+Shift+UP    seek 3 exact
+Shift+DOWN  seek -3 exact
+.           frame-step
+,           frame-back-step
+
+# Speed
+[  multiply speed 0.90909091
+]  multiply speed 1.1
+\  set speed 1.0
+
+# Volume
+-  add volume -2
+=  add volume 2
+
+# Window Commands
+# Meta+Number
+Meta+`  set window-scale 0.75
+Meta+0  set window-scale 0.5
+Meta+1  set window-scale 1
+Meta+2  set window-scale 1.5
+Meta+3  set window-scale 2
+Meta+-  multiply window-scale 0.92
+Meta+=  multiply window-scale 1.08
+f           cycle fullscreen
+Ctrl+SPACE  set fullscreen yes
+Esc         set fullscreen no
+
+# Chapter Commands
+# Ctrl+Shift+?
+Ctrl+Shift+LEFT   add chapter -1
+Ctrl+Shift+RIGHT  add chapter 1
+Ctrl+S            show-text "${chapter-list}"
+
+# Title Commands
+Alt+Shift+LEFT    add disc-title -1
+Alt+Shift+RIGHT   add disc-title 1
+Alt+S             show-text "${disc-title-list}"
+
+# Playlist Commands
+# Meta+Shift+?
+Meta+R            playlist-shuffle ; show-text "Playlist shuffle"
+Meta+Shift+RIGHT  playlist-next
+Meta+Shift+LEFT   playlist-prev
+Meta+S            show-text "${playlist}"
+
+# Track Commands
+h      cycle video
+j      cycle sub
+k      cycle audio
+Meta+j cycle sub-visibility
+```
