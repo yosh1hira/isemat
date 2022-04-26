@@ -7,7 +7,7 @@ class MyDocument extends Document {
       <Html lang="en" className="theme-compiled">
         <Head>
           <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0216843919671575"
-            crossorigin="anonymous"></script>
+            crossOrigin="anonymous"></script>
 
         </Head>
         <body
